@@ -1,0 +1,71 @@
+
+version: "3.9"
+
+services:
+  php82-fpm:
+    build:
+      context: ./volumes/build/php83-fpm
+      dockerfile: Dockerfile
+    container_name: php82-fpm
+    hostname: php82-fpm
+
+    volumes:
+      - ./src:/var/www/html
+      - ./volumes/etc/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+
+
+  nginx:
+    build:
+      context: ./volumes/build/nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    hostname: nginx
+
+    volumes:
+      - ./src:/var/www/html
+      - ./volumes/etc/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+
+
+    ports:
+      - "8080:80"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#     depends_on:
+#       db:
+#         condition: service_healthy
+#   db:
+#     image: postgres
+#     restart: always
+#     user: postgres
+#     secrets:
+#       - db-password
+#     volumes:
+#       - db-data:/var/lib/postgresql/data
+#     environment:
+#       - POSTGRES_DB=example
+#       - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+#     expose:
+#       - 5432
+#     healthcheck:
+#       test: [ "CMD", "pg_isready" ]
+#       interval: 10s
+#       timeout: 5s
+#       retries: 5
+# volumes:
+#   db-data:
+# secrets:
+#   db-password:
+#     file: db/password.txt
+
